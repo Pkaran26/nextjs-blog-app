@@ -1,14 +1,15 @@
-import BaseLayout from '../layouts/base-layout'
-import { Row, Column } from '../components/grid'
-import Card from '../components/card'
+import BaseLayout from '../../layouts/base-layout'
+import { Row, Column } from '../../components/grid'
+import Card from '../../components/card'
+import { Pagination } from '../../components/pagination'
 import moment from 'moment'
 import axios from 'axios'
 import Link from 'next/link'
 
-export default function Index({ posts }) {
+export default function PostIndex({ posts }) {
   return (
     <BaseLayout
-      title="Posts"
+      title="Home"
     >
     <Row>
       <Column size="8">
@@ -22,9 +23,7 @@ export default function Index({ posts }) {
           ))
         :null }
         <Card>
-          <Link href={`/posts`}>
-            <button className="btn btn-primary">View More</button>
-          </Link>
+          <button className="btn btn-primary">View More</button>
         </Card>
       </Column>
     </Row>
@@ -36,13 +35,7 @@ export async function getStaticProps(context) {
   const res = await axios(`https://jsonplaceholder.typicode.com/posts/`)
     .catch(err=>{ return err })
 
-  let data = []
-
-  for (var i = 0; i < 10; i++) {
-    data.push(res.data[i])
-  }
-
   return {
-    props: { posts: data }
+    props: { posts: res.data }
   }
 }
